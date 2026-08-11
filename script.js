@@ -1,41 +1,17 @@
-(function () {
-  "use strict";
+const menuButton = document.querySelector(".menu-toggle");
+const navigation = document.querySelector("#site-nav");
 
-  const nav = document.querySelector("#nav");
-  const toggle = document.querySelector("#navToggle");
-  const year = document.querySelector("#year");
+menuButton.addEventListener("click", () => {
+  const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+  menuButton.setAttribute("aria-expanded", String(!isOpen));
+  navigation.classList.toggle("is-open", !isOpen);
+});
 
-  if (year) {
-    year.textContent = new Date().getFullYear();
+navigation.addEventListener("click", (event) => {
+  if (event.target.matches("a")) {
+    menuButton.setAttribute("aria-expanded", "false");
+    navigation.classList.remove("is-open");
   }
+});
 
-  const updateNav = () => nav.classList.toggle("is-scrolled", window.scrollY > 8);
-  updateNav();
-  window.addEventListener("scroll", updateNav, { passive: true });
-
-  toggle.addEventListener("click", () => {
-    const isOpen = nav.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", String(isOpen));
-  });
-
-  nav.querySelectorAll(".nav__links a").forEach((link) => {
-    link.addEventListener("click", () => {
-      nav.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-    });
-  });
-
-  const links = Array.from(nav.querySelectorAll(".nav__links a"));
-  const sections = document.querySelectorAll("main section[id]");
-
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        links.forEach((link) => link.classList.toggle("is-active", link.hash === `#${entry.target.id}`));
-      });
-    }, { rootMargin: "-45% 0px -50% 0px" });
-
-    sections.forEach((section) => observer.observe(section));
-  }
-})();
+document.querySelector("#year").textContent = new Date().getFullYear();
