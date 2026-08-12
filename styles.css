@@ -307,28 +307,82 @@ h2 { font-size: clamp(46px, 5.7vw, 78px); }
 
 .hero-board {
   position: relative;
-  padding: 34px;
+  padding: 22px 24px 24px;
   color: var(--white);
   background: linear-gradient(145deg, var(--ink-2), var(--ink));
   border: 1px solid rgba(255, 255, 255, .1);
-  border-radius: 22px;
+  border-radius: 18px;
   box-shadow: var(--shadow);
 }
 
-.hero-board::before {
+.hero-profile {
+  position: relative;
+  width: min(100%, 490px);
+  justify-self: end;
+  padding-bottom: 132px;
+}
+
+.portrait-frame {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 430px);
+  margin-left: auto;
+}
+
+.portrait-frame::before {
   content: "";
   position: absolute;
-  top: -9px;
-  right: 36px;
-  width: 78px;
-  height: 18px;
+  z-index: -1;
+  inset: 7% 1% 2% 7%;
+  background: var(--sage-light);
+  border-radius: 50%;
+  transform: rotate(5deg);
+}
+
+.portrait-frame::after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset: 1% 7% 7% 0;
+  border: 1px solid rgba(198, 144, 69, .55);
+  border-radius: 50%;
+  transform: rotate(-7deg);
+}
+
+.portrait-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 24px 32px rgba(11, 24, 40, .18));
+}
+
+.portrait-caption {
+  position: absolute;
+  z-index: 2;
+  right: -12px;
+  bottom: 46px;
+  padding: 9px 15px;
+  color: var(--ink);
   background: var(--gold-light);
-  opacity: .8;
-  transform: rotate(2deg);
+  font-family: var(--utility);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+  box-shadow: 0 8px 20px rgba(11, 24, 40, .12);
+}
+
+.hero-profile .hero-board {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: 0;
+  left: 26px;
 }
 
 .board-heading {
-  padding-bottom: 24px;
+  padding-bottom: 16px;
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -357,20 +411,23 @@ h2 { font-size: clamp(46px, 5.7vw, 78px); }
 
 .metric { display: flex; flex-direction: column; }
 
-.metric-primary {
-  padding: 38px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, .14);
+.profile-metrics {
+  padding: 20px 0 22px;
+  display: grid;
+  grid-template-columns: 1.5fr .72fr .72fr;
+  gap: 22px;
+  align-items: end;
 }
 
 .metric strong {
   font-family: var(--display);
-  font-size: 56px;
+  font-size: 39px;
   font-weight: 500;
   line-height: 1;
 }
 
 .metric-primary strong {
-  font-size: clamp(80px, 8vw, 116px);
+  font-size: clamp(54px, 5.4vw, 72px);
   letter-spacing: -.055em;
 }
 
@@ -381,18 +438,11 @@ h2 { font-size: clamp(46px, 5.7vw, 78px); }
 }
 
 .metric span {
-  max-width: 180px;
-  margin-top: 11px;
+  max-width: 120px;
+  margin-top: 7px;
   color: #b7c1cd;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.metric-row {
-  padding: 30px 0 36px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
+  font-size: 10px;
+  line-height: 1.4;
 }
 
 .learning-line {
@@ -810,7 +860,7 @@ footer a { text-decoration: none; }
 @media (max-width: 1000px) {
   :root { --page: min(100% - 44px, 800px); }
   .hero { min-height: auto; grid-template-columns: 1fr; gap: 78px; }
-  .hero-board { max-width: 580px; }
+  .hero-profile { width: min(100%, 560px); justify-self: start; padding-bottom: 132px; }
   .section-grid { grid-template-columns: 1fr; gap: 44px; }
   .skill-grid { grid-template-columns: 1fr; }
   .skill-card { min-height: auto; }
@@ -824,6 +874,8 @@ footer a { text-decoration: none; }
 
 @media (max-width: 720px) {
   :root { --page: calc(100% - 32px); }
+  html,
+  body { overflow-x: clip; }
   .site-header { min-height: 76px; }
   .wordmark small { display: none; }
   .wordmark > span { width: 40px; height: 40px; }
@@ -871,9 +923,18 @@ footer a { text-decoration: none; }
   h1 { font-size: clamp(52px, 15.5vw, 76px); }
   h2 { font-size: clamp(43px, 12vw, 60px); }
   .hero-actions { align-items: flex-start; flex-direction: column; }
-  .hero-board { padding: 24px; border-radius: 16px; }
-  .board-heading { flex-direction: column; gap: 8px; }
-  .metric-primary strong { font-size: 76px; }
+  .hero-profile { width: 100%; padding-bottom: 0; }
+  .portrait-frame { width: min(100%, 400px); margin: 0 auto; }
+  .portrait-caption { right: 0; bottom: 38px; }
+  .hero-profile .hero-board { position: relative; right: auto; bottom: auto; left: auto; margin-top: -26px; }
+  .hero-board { padding: 22px 20px; border-radius: 16px; }
+  .board-heading { gap: 8px; }
+  .board-label,
+  .live-mark { font-size: 8px; }
+  .profile-metrics { grid-template-columns: 1.35fr .75fr .75fr; gap: 14px; }
+  .metric-primary strong { font-size: clamp(49px, 15vw, 68px); }
+  .metric strong { font-size: 35px; }
+  .metric span { font-size: 9px; }
 
   .about,
   .experience { padding: 96px 0; }
